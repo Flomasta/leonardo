@@ -220,11 +220,13 @@ def main():
             soup = get_soup(section)
             items_urls = get_item_url(soup)
             # get single item url
-            for item_url in items_urls:
-                print(section)
-                print(f'{DOMAIN}{item_url}')
-                fill_table(item_url)
-                # sleep(0.3)
+            print(items_urls)
+            if items_urls:
+                for item_url in items_urls:
+                    print(section)
+                    print(f'{DOMAIN}{item_url}')
+                    fill_table(item_url)
+                    # sleep(0.3)
 
 
 class Command(BaseCommand):
