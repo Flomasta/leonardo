@@ -19,9 +19,9 @@ from leoapp.management.commands.p_settings.const import XML_FILE, X_FORWARDED, R
 #     FILE_ERROR
 
 
-# TODO Переделать логгер в декоратор
+
 # TODO Try except reviev
-# TODO db func reviev
+
 
 
 # check if the size of log file is less than 1mb
