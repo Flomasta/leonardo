@@ -4,7 +4,7 @@ from django.db import models
 class Items(models.Model):
     item_id = models.CharField(max_length=255, primary_key=True, verbose_name='ID')
     title = models.CharField(max_length=255, verbose_name='Title')
-    price = models.PositiveIntegerField(verbose_name='Price', null=True)
+    price = models.DecimalField( max_digits=8,decimal_places=2,verbose_name='Price', null=True)
     item_url = models.URLField(verbose_name='URL')
     images = models.TextField(verbose_name='Images', null=True)
     description = models.TextField(verbose_name='Description', null=True)
@@ -44,7 +44,7 @@ class ItemProperty(models.Model):
 
 
 class PriceDynamic(models.Model):
-    item_price = models.PositiveIntegerField(verbose_name='Price', null=True)
+    item_price = models.DecimalField( max_digits=8,decimal_places=2,verbose_name='Price', null=True)
     item_id = models.ForeignKey(Items, on_delete=models.CASCADE, verbose_name='Item ID')
     price_date = models.DateField(verbose_name='Date')
 
