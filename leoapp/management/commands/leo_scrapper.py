@@ -19,9 +19,7 @@ from leoapp.management.commands.p_settings.const import XML_FILE, X_FORWARDED, R
 #     FILE_ERROR
 
 
-
 # TODO Try except reviev
-
 
 
 # check if the size of log file is less than 1mb
@@ -150,7 +148,7 @@ def get_item_data(location: str):
 
             # item_price
             item_price = soup.find('p', class_='price', default=None)
-            if item_price:
+            if item_price and item_price.text.strip():
                 item['price'] = round(float(item_price.text.strip().split()[0]), 2)
 
             # item_properties
@@ -213,6 +211,12 @@ def fill_table(url):
 
 
 def main():
+    try:
+        get_section_urls(XML_FILE)
+    except Exception as e:
+        print(str(e))
+        sleep(5)
+
     if get_section_urls(XML_FILE):
         sections = get_section_urls(XML_FILE)
         # get single section url
@@ -226,7 +230,7 @@ def main():
                     print(section)
                     print(f'{DOMAIN}{item_url}')
                     fill_table(item_url)
-                    # sleep(0.3)
+        # sleep(0.3)
 
 
 class Command(BaseCommand):
