@@ -47,6 +47,7 @@ class PriceDynamic(models.Model):
     item_price = models.DecimalField( max_digits=8,decimal_places=2,verbose_name='Price', null=True)
     item_id = models.ForeignKey(Items, on_delete=models.CASCADE, verbose_name='Item ID')
     price_date = models.DateField(verbose_name='Date')
+    tmp = models.TextField(verbose_name='delete me')
 
     def __str__(self):
         return str(self.price_date)

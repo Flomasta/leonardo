@@ -11,7 +11,7 @@ from django.core.management.base import BaseCommand
 
 from leoapp.models import Items, ItemProperty, Properties, PriceDynamic
 from leoapp.management.commands.p_settings.const import XML_FILE, X_FORWARDED, REG_EXP, DOMAIN, SOUP_ERROR, CONNECTION, \
-    FILE_ERROR
+    FILE_ERROR, DIRECTORY
 
 
 #
@@ -33,14 +33,11 @@ def check_log_size(file_path: str) -> str:
 
 
 # check if directory exists
-def check_directory(directory):
-    if not os.path.exists(directory):
-        os.makedirs(directory)
 
 
 # append log if file size is less than 1mb or write from the beginning
-def logger(filename, ex, directory='logs'):
-    check_directory(directory)
+def logger(filename, ex, directory=DIRECTORY):
+    os.makedirs(directory, exist_ok=True)
     file_path = f'{directory}/{filename}.log'
     idx = check_log_size(file_path)
     with open(file_path, idx, encoding='utf-8') as file:
@@ -211,12 +208,6 @@ def fill_table(url):
 
 
 def main():
-    try:
-        get_section_urls(XML_FILE)
-    except Exception as e:
-        print(str(e))
-        sleep(5)
-
     if get_section_urls(XML_FILE):
         sections = get_section_urls(XML_FILE)
         # get single section url
@@ -237,5 +228,12 @@ class Command(BaseCommand):
     help = 'Scrapper for leonardo.ru'
 
     def handle(self, *args, **options):
-        main()
-        # print('hi')
+        try:
+            main()
+            print('Success!')
+            with open('leo_logs.log', 'a') as f:
+                f.write('success!')
+        except Exception as e:
+            with open('leo_logs.log', 'a') as f:
+                f.write(str(e))
+        # print('hi')w
