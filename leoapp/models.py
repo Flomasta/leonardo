@@ -3,7 +3,7 @@ from django.db import models
 
 class Items(models.Model):
     item_id = models.CharField(max_length=255, primary_key=True, verbose_name='ID')
-    title = models.CharField(max_length=255, verbose_name='Title')
+    title = models.CharField(max_length=255, verbose_name='Title',default='no_title')
     price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Price', null=True)
     item_url = models.URLField(verbose_name='URL')
     images = models.TextField(verbose_name='Images', null=True)
