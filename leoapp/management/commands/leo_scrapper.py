@@ -208,6 +208,7 @@ def fill_table(url):
 
 
 def main():
+    logger('run_app', 'leo_app_is_started')
     if get_section_urls(XML_FILE):
         sections = get_section_urls(XML_FILE)
         # get single section url
@@ -222,6 +223,7 @@ def main():
                     print(f'{DOMAIN}{item_url}')
                     fill_table(item_url)
         # sleep(0.3)
+    logger('run_app', 'leo_app_is_finished')
 
 
 class Command(BaseCommand):
@@ -231,9 +233,7 @@ class Command(BaseCommand):
         try:
             main()
             print('Success!')
-            with open('leo_logs.log', 'a') as f:
-                f.write('success!')
+            logger('leo_logs', 'success')
         except Exception as e:
-            with open('leo_logs.log', 'a') as f:
-                f.write(str(e))
-        # print('hi')w
+            logger('leo_logs', e)
+
