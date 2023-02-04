@@ -14,14 +14,6 @@ from leoapp.management.commands.p_settings.const import XML_FILE, X_FORWARDED, R
     FILE_ERROR, DIRECTORY
 
 
-#
-# from leoapp.management.commands.p_settings.const import X_FORWARDED, XML_FILE, DOMAIN, REG_EXP, SOUP_ERROR, CONNECTION, \
-#     FILE_ERROR
-
-
-# TODO Try except reviev
-
-
 # check if the size of log file is less than 1mb
 def check_log_size(file_path: str) -> str:
     if os.path.exists(file_path):
@@ -69,7 +61,7 @@ def get_soup(link, timeout=5):
     try:
         response = requests.get(link, timeout=timeout, headers=headers)
     except Exception as e:
-        logger('connection', e)
+        logger(CONNECTION, e)
     else:
         soup = BeautifulSoup(response.text, 'lxml')
         return soup
@@ -104,11 +96,11 @@ def get_item_data(location: str):
     else:
         # getting all item features
         item = {'item_id': None,
-                'breadcrumbs': None,
-                'title': None,
-                'description': None,
-                'images': None,
-                'price': None,
+                'breadcrumbs': 'no breadcrumbs',
+                'title': 'no title',
+                'description': 'no description',
+                'images': 'no images',
+                'price': 'no price',
                 'url': url
                 }
         item_properties = None
@@ -160,6 +152,8 @@ def get_item_data(location: str):
 def fill_table(url):
     # get_data
     item, properties = get_item_data(url)
+    if not item['item_id']:
+        return
 
     # check if data in db
 
@@ -199,7 +193,7 @@ def fill_table(url):
             if not item_prop_value:
                 item_prop_value = ItemProperty(property_value=v, property_id=p, item_id=item_obj)
                 item_prop_value.save()
-        except:
+        except Properties.DoesNotExist:
             p = Properties(property_name=k)
             p.save()
             p = Properties.objects.get(property_name=k)
@@ -236,4 +230,3 @@ class Command(BaseCommand):
             logger('leo_logs', 'success')
         except Exception as e:
             logger('leo_logs', e)
-

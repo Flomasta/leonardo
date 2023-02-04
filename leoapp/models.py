@@ -3,9 +3,9 @@ from django.db import models
 
 class Items(models.Model):
     item_id = models.CharField(max_length=255, primary_key=True, verbose_name='ID')
-    title = models.CharField(max_length=255, verbose_name='Title',default='no_title')
+    title = models.CharField(max_length=255, verbose_name='Title')
     price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Price', null=True)
-    item_url = models.URLField(verbose_name='URL')
+    item_url = models.URLField(verbose_name='URL', null=True)
     images = models.TextField(verbose_name='Images', null=True)
     description = models.TextField(verbose_name='Description', null=True)
     breadcrumbs = models.TextField(verbose_name='Breadcrumbs', null=True)
