@@ -79,6 +79,16 @@ WSGI_APPLICATION = 'leonardo.wsgi.application'
 #     }
 # }
 
+# sqlite settings
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+# mysql settings
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
