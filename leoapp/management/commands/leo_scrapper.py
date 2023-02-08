@@ -73,7 +73,7 @@ def get_item_url(soup):
     try:
         data = soup.find_all('div', class_=['goods catalog-goods', 'goods-page-container'])
     except (AttributeError, TypeError) as ex:
-        logger(soup, ex)
+        logger(SOUP_ERROR, ex)
     else:
         for link in data:
             item_link = link.find('a', class_='goods__link').get('href')
@@ -100,7 +100,7 @@ def get_item_data(location: str):
                 'title': 'no title',
                 'description': 'no description',
                 'images': 'no images',
-                'price': 'no price',
+                'price': None,
                 'url': url
                 }
         item_properties = None

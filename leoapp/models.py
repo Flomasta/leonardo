@@ -30,7 +30,7 @@ class Properties(models.Model):
 
 
 class ItemProperty(models.Model):
-    property_value = models.CharField(max_length=255, verbose_name='Value', null=True)
+    property_value = models.TextField(verbose_name='Value', null=True)
     property_id = models.ForeignKey(Properties, on_delete=models.CASCADE, verbose_name='Property ID')
     item_id = models.ForeignKey(Items, on_delete=models.CASCADE, verbose_name='Item ID')
 
