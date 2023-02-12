@@ -1,0 +1,174 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="{% static 'leoapp.js' %}"></script>
+    <link rel="stylesheet" href="css/libs.min.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+
+<form method="get" action="">
+    <input type="text" name="pk" placeholder="title or id">
+    {{ form }}
+</form>
+
+
+
+
+
+{% for price in prices %}
+    {{ price.item_price }}
+    {{ price.price_date }}
+{% endfor %}
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<figure class="highcharts-figure">
+    <div id="container"></div>
+    <p class="highcharts-description">
+        Highcharts has extensive support for time series, and will adapt
+        intelligently to the input data. Click and drag in the chart to zoom in
+        and inspect the data.
+    </p>
+</figure>
+
+
+<script>
+
+    Highcharts.chart('container', {
+        chart: {
+            zoomType: 'x'
+        },
+        title: {
+            text: 'Leo price dynamic',
+            align: 'left'
+        },
+        subtitle: {
+            text: document.ontouchstart === undefined ?
+                'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in',
+            align: 'left'
+        },
+        xAxis: {
+            type: 'datetime'
+        },
+        yAxis: {
+            title: {
+                text: 'Item price'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            area: {
+                fillColor: {
+                    linearGradient: {
+                        x1: 0,
+                        y1: 0,
+                        x2: 0,
+                        y2: 1
+                    },
+                    stops: [
+                        [0, Highcharts.getOptions().colors[0]],
+                        [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                    ]
+                },
+                marker: {
+                    radius: 2
+                },
+                lineWidth: 1,
+                states: {
+                    hover: {
+                        lineWidth: 1
+                    }
+                },
+                threshold: null
+            }
+        },
+
+        series: [{
+            type: 'area',
+            name: 'RUB',
+            data: {{ json_data }}
+        }]
+    });
+
+
+    {#if we need to use the code with url json#}
+    {#Highcharts.getJSON(#}
+    {#    'https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/usdeur.json',#}
+    {##}
+    {#    function (data) {#}
+    {##}
+    {#        Highcharts.chart('container', {#}
+    {#            chart: {#}
+    {#                zoomType: 'x'#}
+    {#            },#}
+    {#            title: {#}
+    {#                text: 'Leo price dynamic',#}
+    {#                align: 'left'#}
+    {#            },#}
+    {#            subtitle: {#}
+    {#                text: document.ontouchstart === undefined ?#}
+    {#                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in',#}
+    {#                align: 'left'#}
+    {#            },#}
+    {#            xAxis: {#}
+    {#                type: 'datetime'#}
+    {#            },#}
+    {#            yAxis: {#}
+    {#                title: {#}
+    {#                    text: 'Item price'#}
+    {#                }#}
+    {#            },#}
+    {#            legend: {#}
+    {#                enabled: false#}
+    {#            },#}
+    {#            plotOptions: {#}
+    {#                area: {#}
+    {#                    fillColor: {#}
+    {#                        linearGradient: {#}
+    {#                            x1: 0,#}
+    {#                            y1: 0,#}
+    {#                            x2: 0,#}
+    {#                            y2: 1#}
+    {#                        },#}
+    {#                        stops: [#}
+    {#                            [0, Highcharts.getOptions().colors[0]],#}
+    {#                            [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]#}
+    {#                        ]#}
+    {#                    },#}
+    {#                    marker: {#}
+    {#                        radius: 2#}
+    {#                    },#}
+    {#                    lineWidth: 1,#}
+    {#                    states: {#}
+    {#                        hover: {#}
+    {#                            lineWidth: 1#}
+    {#                        }#}
+    {#                    },#}
+    {#                    threshold: null#}
+    {#                }#}
+    {#            },#}
+    {##}
+    {#            series: [{#}
+    {#                type: 'area',#}
+    {#                name: 'RUB',#}
+    {#                data: data#}
+    {#            }]#}
+    {#        });#}
+    {#    }#}
+    {#);#}
+
+</script>
+</body>
+</html>
