@@ -12,3 +12,4 @@ admin.site.register(PriceDynamic)
 class ItemsAdmin(admin.ModelAdmin):
     list_display = ('title', 'price', 'item_url')
     list_filter = ('title', 'price')
+    search_fields = ['title', 'item_id']
