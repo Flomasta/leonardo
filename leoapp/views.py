@@ -21,7 +21,6 @@ def dashboard(request, pk=1):
         data = [[int(time.mktime(price.price_date.timetuple())), float(price.item_price)] for price in prices]
         json_data = json.dumps(data, indent=4, sort_keys=True, separators=(',', ': '))
         print(json_data)
-
         context = {'prices': prices, 'json_data': json_data}
     return render(request, f'leoapp/index.html', context)
     # pk = request.GET(pk, '')
