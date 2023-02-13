@@ -1,9 +1,8 @@
+import time
+from datetime import date
+from django.db.models import Q
 from django.shortcuts import render
 from .models import Items, PriceDynamic
-from django.db.models import Q
-import json
-from datetime import date
-import time
 
 
 # Create your views here.
@@ -12,7 +11,8 @@ def dashboard(request):
     pk = request.GET.get('pk', '')
     context = {}
     if pk:
-        prices = PriceDynamic.objects.select_related('item_id').filter(Q(item_id__item_id=pk) | Q(item_id__title__icontains=pk))
+        prices = PriceDynamic.objects.select_related('item_id').filter(
+            Q(item_id__item_id=pk) | Q(item_id__title__icontains=pk))
         if not prices:
             message = f'There is no items related to {pk}'
             return render(request, f'leoapp/index.html', {'message': message})
