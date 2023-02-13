@@ -12,7 +12,7 @@ def dashboard(request):
     pk = request.GET.get('pk', '')
     context = {}
     if pk:
-        prices = PriceDynamic.objects.select_related('item_id').filter(Q(item_id__item_id=pk) | Q(item_id__title=pk))
+        prices = PriceDynamic.objects.select_related('item_id').filter(Q(item_id__item_id=pk) | Q(item_id__title__icontains=pk))
         if not prices:
             message = f'There is no items related to {pk}'
             return render(request, f'leoapp/index.html', {'message': message})
