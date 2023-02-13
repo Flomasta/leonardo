@@ -13,7 +13,7 @@ import time
 #     return render(request, 'leoapp/index.html', context)
 
 
-def dashboard(request, pk=1):
+def dashboard(request, pk=None):
     pk = request.GET.get('pk', '')
     context = {}
     if pk:
@@ -21,12 +21,13 @@ def dashboard(request, pk=1):
         if not prices:
             message = f'There is no items related to {pk}'
             return render(request, f'leoapp/index.html', {'message': message})
-        data = [[int(time.mktime(price.price_date.timetuple())), float(price.item_price)] for price in prices]
+        data = [[int(time.mktime(price.price_date.timetuple())) * 1000, float(price.item_price)] for price in prices]
+        print(data)
         item_data = prices[0].item_id
         if item_data.images != 'no images':
             image = item_data.images.split('//')[1]
         else:
             image = 't4.ftcdn.net/jpg/04/00/24/31/360_F_400243185_BOxON3h9avMUX10RsDkt3pJ8iQx72kS3.jpg'
-        json_data = json.dumps(data, indent=4, sort_keys=True, separators=(',', ': '))
-        context = {'prices': prices, 'json_data': json_data, 'item_data': item_data, 'image': image}
+
+        context = {'prices': prices, 'json_data': data, 'item_data': item_data, 'image': image}
     return render(request, f'leoapp/index.html', context)

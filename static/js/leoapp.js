@@ -13,8 +13,8 @@ Highcharts.chart('container', {
     },
     xAxis: {
         type: 'datetime',
-        title:{
-            text:'Datetime'
+        title: {
+            text: 'Datetime'
         }
     },
     yAxis: {
