@@ -13,7 +13,7 @@ import time
 #     return render(request, 'leoapp/index.html', context)
 
 
-def dashboard(request, pk=None):
+def dashboard(request):
     pk = request.GET.get('pk', '')
     context = {}
     if pk:
@@ -22,7 +22,6 @@ def dashboard(request, pk=None):
             message = f'There is no items related to {pk}'
             return render(request, f'leoapp/index.html', {'message': message})
         data = [[int(time.mktime(price.price_date.timetuple())) * 1000, float(price.item_price)] for price in prices]
-        print(data)
         item_data = prices[0].item_id
         if item_data.images != 'no images':
             image = item_data.images.split('//')[1]
