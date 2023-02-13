@@ -60,3 +60,12 @@
 .highcharts-data-table tr:hover {
     background: #f1f7ff;
 }
+
+img{
+    display: block;
+    float: left;
+}
+
+p {
+    padding-top: 75px;
+}

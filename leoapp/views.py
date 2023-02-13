@@ -18,13 +18,15 @@ def dashboard(request, pk=1):
     context = {}
     if pk:
         prices = PriceDynamic.objects.select_related('item_id').filter(Q(item_id__item_id=pk) | Q(item_id__title=pk))
+        if not prices:
+            message = f'There is no items related to {pk}'
+            return render(request, f'leoapp/index.html', {'message': message})
         data = [[int(time.mktime(price.price_date.timetuple())), float(price.item_price)] for price in prices]
+        item_data = prices[0].item_id
+        if item_data.images != 'no images':
+            image = item_data.images.split('//')[1]
+        else:
+            image = 't4.ftcdn.net/jpg/04/00/24/31/360_F_400243185_BOxON3h9avMUX10RsDkt3pJ8iQx72kS3.jpg'
         json_data = json.dumps(data, indent=4, sort_keys=True, separators=(',', ': '))
-        print(json_data)
-        context = {'prices': prices, 'json_data': json_data}
+        context = {'prices': prices, 'json_data': json_data, 'item_data': item_data, 'image': image}
     return render(request, f'leoapp/index.html', context)
-    # pk = request.GET(pk, '')
-    # prices = PriceDynamic.objects.select_related('item_id').filter(Q(item_id__item_id=pk) | Q(item_id__title=pk))
-    # prices = Items.objects.all()
-    # context = {'prices': prices, 'pk': pk}
-    # return render(request, f'leoapp/index.html/{pk}', context)

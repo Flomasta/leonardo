@@ -21,7 +21,18 @@
     <form class="search-form" method="get" action="">
         <input class="search-form-text-input" type="text" name="pk" placeholder="Input title or id">
         {{ form }}
+
     </form>
+    {% if message %}
+        <h2>{{ message }}</h2>
+    {% else %}
+        <h3>{{ item_data.title }}</h3>
+        <img width="300px" height="300px" src="https://{{ image }}">
+        <p>{{ item_data.description }}</p>
+
+    {% endif %}
+
+
 </figure>
 
 
